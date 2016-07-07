@@ -5,12 +5,12 @@ Aimee框架的config模块，用于管理配置文件
 
 #### Install
 
-```
+```javascript
 // For Aimee
 aimee i config
 ```
 
-```
+```javascript
 // For Node
 npm i vpm-config
 ```

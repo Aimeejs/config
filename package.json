@@ -1,11 +1,11 @@
 {
-    "name": "config",
+    "name": "vpm-config",
     "aimee": "app",
     "description": "管理配置文件, config",
     "main": "config.js",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "scripts": {
-        "test": "uz -v"
+        "test": "node ./test/app.js"
     },
     "repository": {
         "type": "git",

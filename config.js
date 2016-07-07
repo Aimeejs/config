@@ -6,19 +6,17 @@
 
 var is, extend, Class, Config, config;
 
-try{
+if(typeof window === 'object' && window.window === window){
     // For aimee
     is = require('is');
-    extend = require('extend');
     Class = require('class');
-}catch(e){
-    try{
-        // For node
-        is = require('aimee-is');
-        extend = require('aimee-extend');
-        Class = require('aimee-class');
-    }
-    catch(e){}
+    extend = require('extend');
+}
+else{
+    // For node
+    is = require('aimee-is');
+    Class = require('aimee-class');
+    extend = require('aimee-extend');
 }
 
 Config = Class.create();
@@ -36,7 +34,7 @@ module.exports = config;
  */
 Config.createObject = function(target, key, value){
     var pop;
-    var data = target;
+    var data = target = target || {};
     var arr = key.split('.');
 
     do{
@@ -112,7 +110,7 @@ Config.include({
         try{
             return eval('this.__config.' + key)
         }catch(e){
-            throw e;
+            return undefined
         }
     },
 
