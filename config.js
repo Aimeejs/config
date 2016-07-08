@@ -69,7 +69,8 @@ Config.include({
         // 当做模块路径处理
         if(is.string(target)){
             try{
-                this.__config = require(target)
+                this.__config = require(target);
+                this.__savepath = target;
             }
             catch(e){
                 throw new Error(target + ' is not a module id.')
@@ -143,6 +144,33 @@ Config.include({
         // 合并到根节点
         else{
             extend(true, this.__config, value);
+        }
+    },
+
+    /**
+     * 持久化存储
+     * @param   {String}   src 存储地址，可选
+     * @param   {Function} fn  存储成功后回调，可选
+     * @example this.save()
+     * @example this.save('/a/a.json')
+     * @example this.save('/a/a.json', fn)
+     */
+    save: function(src, fn){
+        if(typeof src === 'function'){
+            fn = src;
+            src = null;
+        }
+        src = src || this.__savepath;
+        this.__savepath = this.__savepath || src;
+        if(src){
+            try{
+                fn ?
+                    require('fs').writeFile(src, JSON.stringify(this.__config || {}), fn):
+                    require('fs').writeFileSync(src, JSON.stringify(this.__config || {}));
+            }
+            catch(e){
+                console.error('Save方法仅在node环境下生效.')
+            }
         }
     }
 })

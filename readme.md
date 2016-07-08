@@ -1,17 +1,17 @@
 # Config
 
-Aimee框架的config模块，用于管理配置文件
+为任意对象提供配置管理
 
 
 #### Install
 
-```javascript
-// For Aimee
+```sh
+# For Aimee
 aimee i config
 ```
 
-```javascript
-// For Node
+```sh
+# For Node
 npm i vpm-config
 ```
 
@@ -48,7 +48,7 @@ config.merge('foo.bar', {
 config.get('foo.bar');				// => {test: 123}
 ```  
 
-#### Instances
+#### Class
 ```javascript
 var Config = config.Config;
 var config1 = new Config;
@@ -61,17 +61,11 @@ console.log(config1.get('app')) // => {name: gavinning}
 
 ``config.init(target)``
 * ``@param`` ``target`` ``type: Object`` 可选，传入已有的配置
-* ``@param`` ``target`` ``type: String`` 可选，传入初试配置文件路径或模块id   
+* ``@param`` ``target`` ``type: String`` 可选，传入初试配置文件绝对路径或模块id，Nodejs下会被当做默认持久化存储路径   
 ```javascript
-config.init({a: 1})
-```
----
-
-``config.get(key)``
-* ``@param`` ``key`` ``type: String`` 可选，不传key默认返回完整的配置对象
-```javascript
-config.get() 	   // => {a: 1}
-config.get('a') 	// => 1
+config.init({ foo: 'bar' })
+// Or
+config.init('/User/gavinning/foo.json')
 ```
 ---
 
@@ -80,7 +74,16 @@ config.get('a') 	// => 1
 * ``@param`` ``key`` ``type: String`` 必选，需要更新的key
 * ``@param`` ``value`` ``type: AnyType`` 必选，任意数据类型均可
 ```javascript
-config.set('app.name', 'gavinning') // => {app: {name: gavinning}}
+config.set('app.user.name', 'gavinning')
+```
+---
+
+``config.get(key)``
+* ``@param`` ``key`` ``type: String`` 可选，不传key默认返回完整的配置对象
+```javascript
+config.get()            // => { app: { user: { name: 'gavinning' } }, foo: 'bar' }
+config.get('app')       // => { user: { name: 'gavinning' } }
+config.get('app.user')  // => { name: 'gavinning' }
 ```
 ---
 
@@ -89,5 +92,18 @@ config.set('app.name', 'gavinning') // => {app: {name: gavinning}}
 * ``@param`` ``key`` ``type: String`` 可选，没有key的时候直接更新到根对象(慎用)
 * ``@param`` ``value`` ``type: AnyType`` 必选，任意数据类型均可
 ```javascript
-config.merge('app.path', '/app/gavinning') // => {app: {name: gavinning, path: '/app/gavinning'}}
+config.merge('app.conf', { path: '/app/gavinning' })
+config.get()            // => { app: { user: { name: 'gavinning' }, conf: { path: '/app/gavinning' } }, foo: 'bar' }
+```
+
+---
+
+``config.save(src, fn)``
+* ``@des`` 持久化存储，仅Nodejs下有效
+* ``@param`` ``src`` ``type: String`` 初始化参数为路径时，此参数可选
+* ``@param`` ``fn`` ``type: Function`` 可选，fn ? 异步处理 : 同步处理
+```javascript
+config.save() // 同步，默认使用初始化时的路径
+config.save('/User/gavinning/foo.json')     // 同步
+config.save('/User/gavinning/foo.json', fn) // 异步
 ```
