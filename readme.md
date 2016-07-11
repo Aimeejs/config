@@ -98,12 +98,19 @@ config.get()            // => { app: { user: { name: 'gavinning' }, conf: { path
 
 ---
 
-``config.save(src, fn)``
+``config.save(src, options, fn)``
 * ``@des`` 持久化存储，仅Nodejs下有效
 * ``@param`` ``src`` ``type: String`` 初始化参数为路径时，此参数可选
+* ``@param`` ``options`` ``type: Object`` 持久化存储配置项，此参数可选
 * ``@param`` ``fn`` ``type: Function`` 可选，fn ? 异步处理 : 同步处理
 ```javascript
 config.save() // 同步，默认使用初始化时的路径
 config.save('/User/gavinning/foo.json')     // 同步
-config.save('/User/gavinning/foo.json', fn) // 异步
+config.save('/User/gavinning/foo.json', {pretty: true}, fn) // 异步
+
+options.pretty = true   // => 美化存储结果
+options.prettyOptions = {
+    type: 'tab',        // => tab | space
+    size: 1             // => 1个单位
+}
 ```

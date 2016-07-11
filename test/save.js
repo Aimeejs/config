@@ -7,4 +7,4 @@ config.set('user.tel', 1300)
 
 console.log(config.get())
 
-config.save('./config.json')
+config.save('./config.json', {pretty: true})

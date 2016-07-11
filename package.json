@@ -1,31 +1,32 @@
 {
-    "name": "vpm-config",
-    "aimee": "app",
-    "description": "管理配置文件, config",
-    "main": "config.js",
-    "version": "1.3.0",
-    "scripts": {
-        "test": "node ./test/app.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Aimeejs/config.git"
-    },
-    "keywords": [
-        "config",
-        "aimee",
-        "aimee-app",
-        "uz"
-    ],
-    "author": "gavinning",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/Aimeejs/config/issues"
-    },
-    "homepage": "https://github.com/Aimeejs/config",
-    "dependencies": {
-        "aimee-is": "^1.0.0",
-        "aimee-extend": "^1.0.0",
-        "aimee-class": "^1.0.0"
-    }
+  "name": "vpm-config",
+  "aimee": "app",
+  "description": "管理配置文件, config",
+  "main": "config.js",
+  "version": "1.3.1",
+  "scripts": {
+    "test": "node ./test/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aimeejs/config.git"
+  },
+  "keywords": [
+    "config",
+    "aimee",
+    "aimee-app",
+    "uz"
+  ],
+  "author": "gavinning",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Aimeejs/config/issues"
+  },
+  "homepage": "https://github.com/Aimeejs/config",
+  "dependencies": {
+    "aimee-class": "^1.0.0",
+    "aimee-extend": "^1.0.0",
+    "aimee-is": "^1.0.0",
+    "json-format": "^0.1.2"
+  }
 }

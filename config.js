@@ -4,7 +4,7 @@
  * Homepage https://github.com/Aimeejs/config
  */
 
-var is, extend, Class, Config, config;
+var is, extend, Class, Config, config, jsonFormat;
 
 if(typeof window === 'object' && window.window === window){
     // For aimee
@@ -17,6 +17,8 @@ else{
     is = require('aimee-is');
     Class = require('aimee-class');
     extend = require('aimee-extend');
+    jsonFormat = require('json-format');
+
 }
 
 Config = Class.create();
@@ -149,24 +151,39 @@ Config.include({
 
     /**
      * 持久化存储
-     * @param   {String}   src 存储地址，可选
-     * @param   {Function} fn  存储成功后回调，可选
+     * @param   {String}   src     存储地址，可选
+     * @param   {Object}   options 可选配置项
+     * @param   {Function} fn      存储成功后回调，可选
      * @example this.save()
      * @example this.save('/a/a.json')
      * @example this.save('/a/a.json', fn)
      */
-    save: function(src, fn){
-        if(typeof src === 'function'){
+    save: function(src, options, fn){
+        var data;
+        if(is.function(src)){
             fn = src;
             src = null;
         }
+        if(is.plainObject(src)){
+            options = src;
+            src = null;
+        }
+        if(is.function(options)){
+            fn = options;
+            options = {};
+        }
         src = src || this.__savepath;
+        options = options || {};
         this.__savepath = this.__savepath || src;
+        // For Save
+        options.pretty ?
+            data = jsonFormat(this.__config || {}, options.prettyOptions || {type: 'space', size: 2}):
+            data = JSON.stringify(this.__config || {});
         if(src){
             try{
                 fn ?
-                    require('fs').writeFile(src, JSON.stringify(this.__config || {}), fn):
-                    require('fs').writeFileSync(src, JSON.stringify(this.__config || {}));
+                    require('fs').writeFile(src, data, fn):
+                    require('fs').writeFileSync(src, data);
             }
             catch(e){
                 console.error('Save方法仅在node环境下生效.')
