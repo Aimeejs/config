@@ -159,7 +159,12 @@ Config.include({
      * @example this.save('/a/a.json', fn)
      */
     save: function(src, options, fn){
-        var data;
+        var data, def;
+
+        def = {
+            pretty: true
+        }
+
         if(is.function(src)){
             fn = src;
             src = null;
@@ -170,10 +175,10 @@ Config.include({
         }
         if(is.function(options)){
             fn = options;
-            options = {};
+            options = def;
         }
         src = src || this.__savepath;
-        options = options || {};
+        options = options || def;
         this.__savepath = this.__savepath || src;
         // For Save
         options.pretty ?
