@@ -16,7 +16,7 @@ npm i vpm-config
 ```
 
 
-#### Example
+### Usage
 ```javascript
 // For Aimee
 var config = require('config');
@@ -27,8 +27,7 @@ var config = require('config');
 var config = require('vpm-config');
 
 ```
-
-
+### Example
 ```javascript
 config.init();
 
@@ -48,13 +47,78 @@ config.merge('foo.bar', {
 config.get('foo.bar');				// => {test: 123}
 ```  
 
-#### Class
+### Class
 ```javascript
 var Config = config.Config;
 var config1 = new Config;
 
 config1.set('app.name', 'gavinning')
 console.log(config1.get('app')) // => {name: gavinning}
+```
+
+### For app
+在其他app中接入config 1
+```js
+// Build
+var app = {};
+var Config = require('config').Config;
+
+app.config = new Config;
+app.config.init({
+    foo: true,
+    bar: false
+})
+// your code
+// ...
+module.exports = app;
+```
+```js
+// Use
+var app = require('app');
+
+// Set
+app.config.set('bar', true);
+
+// Get
+app.config.get('foo') // => true
+
+// your code
+// ...
+```
+
+### For app
+在其他app中接入config 2
+```js
+// Build
+var app = {};
+var Config = require('config').Config;
+var config = new Config;
+
+config.init({
+    foo: true,
+    bar: false
+})
+
+app.config = function(){
+    config.general.apply(config, arguments);
+    return this;
+}
+// your code
+// ...
+module.exports = app;
+```
+```js
+// Use
+var app = require('app');
+
+// Set
+app.config('bar', true);
+
+// Get
+app.config('foo') // => true
+
+// your code
+// ...
 ```
 
 #### Api
@@ -95,6 +159,29 @@ config.get('app.user')  // => { name: 'gavinning' }
 config.merge('app.conf', { path: '/app/gavinning' })
 config.get()            // => { app: { user: { name: 'gavinning' }, conf: { path: '/app/gavinning' } }, foo: 'bar' }
 ```
+---
+``config.general(key, value)``
+* ``@des`` 通用方法，可以转接到app的config上，让app.config进可攻退可守
+* ``@param`` ``key`` ``type: String`` 可选，key && !value时 调用 config.get(key)
+* ``@param`` ``key`` ``type: Object`` 可选，此时调用 config.merge(key)
+* ``@param`` ``value`` ``type: AnyType`` 可选，此时调用 config.set(key, value)
+```javascript
+// Build
+var app = {};
+var Config = require('config').Config;
+var config = new Config;
+
+config.init({
+    foo: true,
+    bar: false
+})
+
+app.config = function(){
+    config.general.apply(config, arguments);
+    return this;
+}
+```
+
 
 ---
 

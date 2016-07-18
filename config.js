@@ -4,25 +4,24 @@
  * Homepage https://github.com/Aimeejs/config
  */
 
-var is, extend, Class, Config, config, jsonFormat;
+var env = require('./lib/is');
 
-if(typeof window === 'object' && window.window === window){
-    // For aimee
-    is = require('is');
-    Class = require('class');
-    extend = require('extend');
-}
-else{
+if(env.node()){
     // For node
-    is = require('aimee-is');
-    Class = require('aimee-class');
-    extend = require('aimee-extend');
-    jsonFormat = require('json-format');
-
+    var is = require('aimee-is');
+    var Class = require('aimee-class');
+    var extend = require('aimee-extend');
+    var jsonFormat = require('json-format');
+}
+if(env.browser()){
+    // For aimee
+    var is = require('is');
+    var Class = require('class');
+    var extend = require('extend');
 }
 
-Config = Class.create();
-config = new Config;
+var Config = Class.create();
+var config = new Config;
 config.Config = Config;
 module.exports = config;
 
@@ -146,6 +145,29 @@ Config.include({
         // 合并到根节点
         else{
             extend(true, this.__config, value);
+        }
+    },
+
+    /**
+     * 默认项
+     * @param   {String}   key   key
+     * @param   {object}   key   => value
+     * @param   {AnyType}  value value
+     * @example this.general.apply(this, arguments)
+     */
+    general: function(key, value){
+        if(!key){
+            return this.get()
+        }
+
+        if(typeof key === 'object'){
+            return this.merge(key)
+        }
+
+        if(typeof key === 'string'){
+            return value ?
+                this.set(key, value):
+                this.get(key);
         }
     },
 
