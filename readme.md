@@ -19,13 +19,13 @@ npm i vpm-config
 ### Usage
 ```javascript
 // For Aimee
-var config = require('config');
-
+var Config = require('config');
+var config = new Config;
 ```
 ```javascript
 // For Node
-var config = require('vpm-config');
-
+var Config = require('vpm-config');
+var config = new Config;
 ```
 ### Example
 ```javascript
@@ -47,21 +47,12 @@ config.merge('foo.bar', {
 config.get('foo.bar');				// => {test: 123}
 ```  
 
-### Class
-```javascript
-var Config = config.Config;
-var config1 = new Config;
-
-config1.set('app.name', 'gavinning')
-console.log(config1.get('app')) // => {name: gavinning}
-```
-
 ### For app
 在其他app中接入config 1
 ```js
 // Build
 var app = {};
-var Config = require('config').Config;
+var Config = require('vpm-config');
 
 app.config = new Config;
 app.config.init({
@@ -91,7 +82,7 @@ app.config.get('foo') // => true
 ```js
 // Build
 var app = {};
-var Config = require('config').Config;
+var Config = require('vpm-config');
 var config = new Config;
 
 config.init({

@@ -9,62 +9,26 @@ var env = require('./lib/is');
 if(env.node()){
     // For node
     var is = require('aimee-is');
-    var Class = require('aimee-class');
     var extend = require('aimee-extend');
     var jsonFormat = require('json-format');
 }
 if(env.browser()){
     // For aimee
     var is = require('is');
-    var Class = require('class');
     var extend = require('extend');
 }
 
-var Config = Class.create();
-var config = new Config;
-config.Config = Config;
-module.exports = config;
+class Config {
 
-/**
- * 递归创建不存在子节点为空对象
- * @param   {Object}  target   目标对象
- * @param   {String}  key      要操作的key
- * @param   {anyType} value    target.key
- * @return  {Object}           target
- * @example this.create({}, 'app.path', __dirname)
- */
-Config.createObject = function(target, key, value){
-    var pop;
-    var data = target = target || {};
-    var arr = key.split('.');
+    constructor() {
 
-    do{
-        pop = arr.shift();
-        data[pop] = data[pop] || {};
-        data = data[pop];
-    }
-    while(arr.length > 1)
-
-    // 检查是否存在value
-    if(value){
-        // 节点创建完成尝试赋值
-        try{
-            eval('target.' + key + ' = value')
-        // 赋值失败则抛错
-        }catch(e){
-            throw e;
-        }
     }
 
-    return target;
-}
-
-Config.include({
     /**
      * 设置数据模型
      * @param   {String || Object} target 模块id或数据模型对象
      */
-    init: function(target){
+    init(target) {
         this.__config = {};
 
         // 当做模块路径处理
@@ -82,7 +46,7 @@ Config.include({
         if(is.plainObject(target)){
             this.__config = target;
         }
-    },
+    }
 
     /**
      * 单项配置设置，覆盖模式，推荐只用于单项配置
@@ -90,13 +54,13 @@ Config.include({
      * @param   {Anytype} value 属性值
      * @example config.set('dir.install', 'packages');
      */
-    set: function(key, value){
+    set(key, value) {
         try{
             eval('this.__config.' + key + ' = value')
         }catch(e){
             this.__config = Config.createObject(this.__config, key, value)
         }
-    },
+    }
 
     /**
      * 获取配置
@@ -104,7 +68,7 @@ Config.include({
      * @return  {Anytype}     属性值
      * @example config.get('dir.install'); // => packages
      */
-    get: function(key){
+    get(key) {
         if(!key){
             return this.__config;
         }
@@ -114,7 +78,7 @@ Config.include({
         }catch(e){
             return undefined
         }
-    },
+    }
 
     /**
      * 多项配置设置，合并模式，推荐使用多项配置
@@ -124,7 +88,7 @@ Config.include({
      * @example config.merge('dir', {install: 'packages'});
      * @example config.merge('dir.install', 'packages');
      */
-    merge: function(key, value){
+    merge(key, value) {
         var tmp;
 
         if(!value){
@@ -146,7 +110,7 @@ Config.include({
         else{
             extend(true, this.__config, value);
         }
-    },
+    }
 
     /**
      * 默认项
@@ -155,7 +119,7 @@ Config.include({
      * @param   {AnyType}  value value
      * @example this.general.apply(this, arguments)
      */
-    general: function(key, value){
+    general(key, value) {
         if(!key){
             return this.get()
         }
@@ -169,7 +133,7 @@ Config.include({
                 this.set(key, value):
                 this.get(key);
         }
-    },
+    }
 
     /**
      * 持久化存储
@@ -180,7 +144,7 @@ Config.include({
      * @example this.save('/a/a.json')
      * @example this.save('/a/a.json', fn)
      */
-    save: function(src, options, fn){
+    save(src, options, fn) {
         var data, def;
 
         def = {
@@ -217,4 +181,40 @@ Config.include({
             }
         }
     }
-})
+}
+
+/**
+ * 递归创建不存在子节点为空对象
+ * @param   {Object}  target   目标对象
+ * @param   {String}  key      要操作的key
+ * @param   {anyType} value    target.key
+ * @return  {Object}           target
+ * @example this.create({}, 'app.path', __dirname)
+ */
+Config.createObject = function(target, key, value){
+    var pop;
+    var data = target = target || {};
+    var arr = key.split('.');
+
+    do{
+        pop = arr.shift();
+        data[pop] = data[pop] || {};
+        data = data[pop];
+    }
+    while(arr.length > 1)
+
+    // 检查是否存在value
+    if(value){
+        // 节点创建完成尝试赋值
+        try{
+            eval('target.' + key + ' = value')
+        // 赋值失败则抛错
+        }catch(e){
+            throw e;
+        }
+    }
+
+    return target;
+}
+
+module.exports = Config;

@@ -3,7 +3,7 @@
   "aimee": "app",
   "description": "管理配置文件, config",
   "main": "config.js",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "scripts": {
     "test": "node ./test/app.js"
   },
@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/Aimeejs/config",
   "dependencies": {
-    "aimee-class": "^1.0.0",
     "aimee-extend": "^1.0.0",
     "aimee-is": "^1.0.0",
     "json-format": "^0.1.2"
