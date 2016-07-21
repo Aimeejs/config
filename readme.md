@@ -168,8 +168,7 @@ config.init({
 })
 
 app.config = function(){
-    config.general.apply(config, arguments);
-    return this;
+    return config.general.apply(config, arguments) || this;
 }
 ```
 
