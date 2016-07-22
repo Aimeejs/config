@@ -44,8 +44,6 @@ class Config {
         if(is.plainObject(target)){
             this.__config = target;
         }
-
-        return this
     }
 
     /**
@@ -60,7 +58,6 @@ class Config {
         }catch(e){
             this.__config = Config.createObject(this.__config, key, value)
         }
-        return this
     }
 
     /**
@@ -111,8 +108,6 @@ class Config {
         else{
             extend(true, this.__config, value);
         }
-
-        return this
     }
 
     /**
@@ -188,8 +183,6 @@ class Config {
                 console.error('Save方法仅在node环境下生效.')
             }
         }
-
-        return this
     }
 }
 
