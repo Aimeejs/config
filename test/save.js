@@ -1,5 +1,6 @@
 var path = require('path');
-var config = require('../config');
+var Config = require('../config');
+var config = new Config;
 
 config.init({ user: { name: 'gavinning', age: 18 } });
 

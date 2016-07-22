@@ -1,4 +1,5 @@
-var config = require('../config');
+var Config = require('../config');
+var config = new Config;
 
 console.log(config.get())
 

@@ -21,7 +21,7 @@ if(env.browser()){
 class Config {
 
     constructor() {
-
+        this.__config = {};
     }
 
     /**
@@ -29,8 +29,6 @@ class Config {
      * @param   {String || Object} target 模块id或数据模型对象
      */
     init(target) {
-        this.__config = {};
-
         // 当做模块路径处理
         if(is.string(target)){
             try{
@@ -46,6 +44,8 @@ class Config {
         if(is.plainObject(target)){
             this.__config = target;
         }
+
+        return this
     }
 
     /**
@@ -60,6 +60,7 @@ class Config {
         }catch(e){
             this.__config = Config.createObject(this.__config, key, value)
         }
+        return this
     }
 
     /**
@@ -110,6 +111,8 @@ class Config {
         else{
             extend(true, this.__config, value);
         }
+
+        return this
     }
 
     /**
@@ -155,21 +158,26 @@ class Config {
             fn = src;
             src = null;
         }
+
         if(is.plainObject(src)){
             options = src;
             src = null;
         }
+
         if(is.function(options)){
             fn = options;
             options = def;
         }
+
         src = src || this.__savepath;
         options = options || def;
         this.__savepath = this.__savepath || src;
+
         // For Save
         options.pretty ?
             data = jsonFormat(this.__config || {}, options.prettyOptions || {type: 'space', size: 2}):
             data = JSON.stringify(this.__config || {});
+
         if(src){
             try{
                 fn ?
@@ -180,6 +188,8 @@ class Config {
                 console.error('Save方法仅在node环境下生效.')
             }
         }
+
+        return this
     }
 }
 

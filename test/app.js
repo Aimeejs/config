@@ -1,6 +1,5 @@
-var config = require('../config');
-var Config = config.Config;
-var cc = new Config;
+var Config = require('../config');
+var config = new Config;
 
 var app = {};
 
