@@ -12,7 +12,7 @@ if(env.node()){
     var extend = require('aimee-extend');
     var jsonFormat = require('json-format');
 }
-if(env.browser()){
+else{
     // For aimee
     var is = require('is');
     var extend = require('extend');
